@@ -113,4 +113,34 @@ check(); // this = undefined
 const check = obj.method.bind(obj);
 check(); // this = obj
 */
+
+
+//задача
+// Потрібно створити функціонал для контролю швидкості прокатних авто.
+// Створіть функцію яка буде приймати 1 параметр (максимально дозволену швидкість)
+// та виводити повідомлення, чи ми рухаємось з безпечною швидкістю чи перевищуємо, функція має опрацьовувати об'єкт автомобіля як this
+
+
  
+const SPEED = 60;
+
+const bmw = {
+    speed: 30,
+    brand: "bmw"
+}
+
+const audi = {
+    speed: 80,
+    brand: "audi"
+}
+
+function speedSensor(maxSpeed) {
+    if(this.speed <= maxSpeed) {
+        return `Авто ${this.brand} рухаєтсья з безпечною швидкістю`;
+    }
+
+    return `Авто ${this.brand} перевищує швидкість`
+}
+
+console.log(speedSensor.call(bmw, SPEED));
+console.log(speedSensor.apply(audi, [SPEED]));
