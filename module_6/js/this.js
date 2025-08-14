@@ -152,7 +152,7 @@ console.log(speedSensor.apply(audi, [SPEED]));
 // завдання написати програмне забезпечення для автомобіля, а саме натискання кнопки набору та зниження швидкості в системі круїз контролю.
 // Створити об'єкт cruiseControl з методами accelerate та decrease, властивостями speed та brand.
 
- const cruiseControl = {
+/* const cruiseControl = {
      speed: 0,
      brand: "Audi",
      accelerate() {
@@ -178,4 +178,101 @@ console.log(speedSensor.apply(audi, [SPEED]));
  cruiseControl.decrease();
 
  console.log(cruiseControl);
+*/
 
+
+
+
+ /*
+Перед звільненням розробник зламав вихідний код управління акаунтами користувачів нашого сервісу доставки їжі.
+Виконай рефакторинг методів об'єкта customer, розставивши відсутні this під час звернення до властивостей об'єкта.
+
+Використай цей стартовий код і виконай рефакторинг. Після оголошення об'єкта ми додали виклики методів. 
+У консоль будуть виведені результати їх роботи.*/
+
+/*
+const customer = {
+  username: "Mango",
+  balance: 24000,
+  discount: 0.1,
+  orders: ["Burger", "Pizza", "Salad"],
+  getBalance() {
+    return this.balance;
+  },
+  getDiscount() {
+    return this.discount;
+  },
+  setDiscount(value) {
+    this.discount = value;
+  },
+  getOrders() {
+    return this.orders;
+  },
+  addOrder(cost, order) {
+    this.balance -= cost - cost * this.discount;
+    this.orders.push(order);
+  },
+};
+
+customer.setDiscount(0.15);
+console.log(customer.getDiscount()); // 0.15
+customer.addOrder(5000, "Steak");
+console.log(customer.getBalance()); // 19750
+console.log(customer.getOrders()); // ["Burger", "Pizza", "Salad", "Steak"]
+
+/*що зроблено в кожному методі:
+
+getBalance()
+Повертає значення властивості balance об'єкта. Тому: return this.balance;.
+
+getDiscount()
+Повертає this.discount, а не глобальну/локальну змінну.
+
+setDiscount(value)
+Оновлює властивість об'єкта: this.discount = value;. Після цього всі методи, що читають this.discount, використовують нове значення.
+
+getOrders()
+Повертає масив замовлень об'єкта: return this.orders;.
+
+addOrder(cost, order)
+Оновлює баланс і додає нове замовлення у масив.*/
+
+
+
+
+
+/*   Виконай рефакторинг класу Car. Додай публічну статичну властивість maxPrice зі значенням число 50000 - максимально допустима ціна автомобіля.
+
+Додай сеттеру price перевірку значення параметра newPrice, що передається. Якщо воно більше за maxPrice, сеттер нічого не робить, а якщо менше або дорівнює, то перезаписує ціну автомобіля.
+
+Під оголошенням класу ми додали ініціалізації екземплярів і виклики методів, щоб показати, як будуть використовуватися геттери і сеттери price.
+ */
+
+class Car {
+    static maxPrice = 50000;
+    
+  #price;
+
+  constructor(params) {
+    this.#price = params.price;
+  }
+
+  get price() {
+    return this.#price;
+  }
+
+  set price(newPrice) {
+      if (newPrice <= Car.maxPrice) {
+        this.#price = newPrice;   // Якщо newPrice більше за maxPrice — нічого не робимо
+    }
+  }
+}
+
+const audi = new Car({ price: 35000 });
+console.log(audi.price); // 35000
+
+audi.price = 49000;
+console.log(audi.price); // 49000
+
+audi.price = 51000;
+console.log(audi.price); // 49000
