@@ -246,7 +246,7 @@ addOrder(cost, order)
 Додай сеттеру price перевірку значення параметра newPrice, що передається. Якщо воно більше за maxPrice, сеттер нічого не робить, а якщо менше або дорівнює, то перезаписує ціну автомобіля.
 
 Під оголошенням класу ми додали ініціалізації екземплярів і виклики методів, щоб показати, як будуть використовуватися геттери і сеттери price.
- */
+ 
 
 class Car {
     static maxPrice = 50000;
@@ -275,4 +275,70 @@ audi.price = 49000;
 console.log(audi.price); // 49000
 
 audi.price = 51000;
-console.log(audi.price); // 49000
+console.log(audi.price); // 49000 */
+
+
+
+
+
+/* 
+Створи клас Storage, який створюватиме об'єкти для управління складом товарів. 
+Клас очікує лише один аргумент — початковий масив товарів, який записується 
+до створеного об'єкта в приватну властивість items.
+Оголоси наступні методи класу:
+getItems() — повертає масив поточних товарів у приватній властивості items.
+addItem(newItem) — приймає новий товар newItem і додає його до масиву товарів у приватну властивість items об'єкта.
+removeItem(itemToRemove) — приймає рядок з назвою товару itemToRemove і видаляє його з масиву товарів у приватній властивості items об'єкта. */
+
+class Storage {
+  #items; // приватна властивість
+
+  constructor(initialItems) {
+    this.#items = initialItems; // зберігаємо стартовий масив у приватне поле
+  }
+
+  // Повертає поточний масив товарів
+  getItems() {
+    return this.#items;
+  }
+
+  // Додає новий товар у кінець масиву
+  addItem(newItem) {
+    this.#items.push(newItem);
+  }
+
+  // Видаляє товар за назвою (якщо є). Якщо немає — нічого не змінює.
+  removeItem(itemToRemove) {
+    // приберемо всі входження itemToRemove
+    this.#items = this.#items.filter(item => item !== itemToRemove);
+  }
+}
+
+// --- Код для перевірки ---
+const storage = new Storage(["Nanitoids", "Prolonger", "Antigravitator"]);
+console.log(storage.getItems()); // ["Nanitoids", "Prolonger", "Antigravitator"]
+
+storage.addItem("Droid");
+console.log(storage.getItems()); // ["Nanitoids", "Prolonger", "Antigravitator", "Droid"]
+
+storage.removeItem("Prolonger");
+console.log(storage.getItems()); // ["Nanitoids", "Antigravitator", "Droid"]
+
+storage.removeItem("Scaner");
+console.log(storage.getItems()); // ["Nanitoids", "Antigravitator", "Droid"]
+/* Детальне пояснення
+Приватна властивість #items
+Оголошена через #items, тож зовні до неї звернутися не можна (у об’єкта storage немає публічної items). Початковий масив передаємо в конструктор і зберігаємо в це поле.
+
+getItems()
+Повертає поточний масив товарів із приватного поля. (За бажанням у реальному коді можна повертати копію return [...this.#items];, щоб ніхто не змінив масив напряму, але для завдання достатньо повернути сам масив.)
+
+addItem(newItem)
+Додає елемент у кінець масиву через push, тим самим змінюючи приватне поле екземпляра.
+
+removeItem(itemToRemove)
+Перезаписує #items, відфільтрувавши всі елементи, що дорівнюють itemToRemove.
+
+Якщо елемент є — він буде видалений.
+
+Якщо елемента нема (як "Scaner"), масив залишиться без змін, що й потрібно за умовою.*/
