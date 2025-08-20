@@ -11,18 +11,18 @@ attr=value], псевдокласи :hover, :checked, :not(), :is(), :has() то
 Для багатьох елементів є querySelectorAll.
 
 Якщо викликати на елементі — пошук буде в межах цього елемента: */
-const form = document.querySelector('form');
-const emailInput = form.querySelector('input[name="email"]'); // шукає лише всередині форми
+// const form = document.querySelector('form');
+//const emailInput = form.querySelector('input[name="email"]'); // шукає лише всередині форми
 
 // На документі
-document.querySelector(selector);
+//document.querySelector(selector);
 
 // На елементі
-someElement.querySelector(selector);
+//someElement.querySelector(selector);
 
 
 // Часті шаблони використання
-
+/*
 // 1) Робота з класами та контентом
 const title = document.querySelector('h1.title');
 if (title) {
@@ -63,8 +63,64 @@ const checked = document.querySelector('input[type="radio"]:checked');
 const card = document.querySelector('.card');
 // тільки прямі дочірні кнопки всередині card
 const mainBtn = card?.querySelector(':scope > .actions > .btn-primary');
-
+*/
 
 
 // __________задачі_____________
  
+// Задача 1. Перемикач теми (dark / light)
+// клік по тумблеру додає/знімає клас dark на <html>.
+const toggle = document.querySelector('#theme-toggle');
+
+toggle?.addEventListener('click', () => {
+  document.documentElement.classList.toggle('dark');
+});
+
+//Задача 2. Валідація email на blur
+//Умова: якщо email порожній — показати підказку.
+const email = document.querySelector('input[name="email"]');
+const hint  = document.querySelector('#email-hint');
+
+email?.addEventListener('blur', () => {
+  const empty = !email.value.trim();
+  hint?.classList.toggle('visible', empty);
+});
+
+
+//Задача 3. Закрити модалку кліком поза контентом
+const modal = document.querySelector('#modal');
+
+modal?.addEventListener('click', (e) => {
+  if (e.target === modal) modal.classList.remove('is-open');
+});
+
+//Задача 4. Взяти значення з активної вкладки
+const activeTabPanel = document.querySelector('[role="tabpanel"].is-active');
+const firstInput = activeTabPanel?.querySelector('input');
+console.log(firstInput?.value);
+
+
+//Задача 5. Знайти картинку з alt, що містить слово
+
+const img = document.querySelector('img[alt*="avatar" i]'); // i — case-insensitive
+console.log(img?.src);
+
+
+// Задача 6. Тост “копійовано” після кліку на код
+const code = document.querySelector('pre code');
+const toast = document.querySelector('#copied-toast');
+
+code?.addEventListener('click', async () => {
+  await navigator.clipboard.writeText(code.innerText);
+  toast?.classList.add('show');
+  setTimeout(() => toast?.classList.remove('show'), 1500);
+});
+
+
+// Задача 7. Вибір елемента з «проблемним» id
+// У селекторі потрібно екранізувати спецсимволи:
+
+<div id="price.current">100</div>
+// краще так:
+const price = document.querySelector('#price\\.current');
+console.log(price?.textContent); // "100"
